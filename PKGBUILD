@@ -1,5 +1,7 @@
 ## $Id$
-# Maintainer: TheKit <nekit1000 at gmail.com>
+# Contributor: TheKit <nekit1000 at gmail.com>
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Contributor: Alexey Andreyev <aa13q@ya.ru>
 # Maintainer: James Kittsmiller (AJSlye) <james@nulogicsystems.com>
 
 pkgname=qt5-usb-moded-git
@@ -9,7 +11,7 @@ pkgrel=1
 pkgdesc="A library of Qt5 bindings for usb_moded"
 arch=('x86_64' 'aarch64')
 url="https://git.sailfishos.org/mer-core/libusb-moded-qt"
-license=('GPL')
+license=('BSD-2-Clause')
 depends=('qt5-base' 'usb-moded')
 makedepends=('git')
 provides=("${_pkgname%-git}" "${pkgname%-git}")
@@ -18,17 +20,17 @@ source=('git+https://git.sailfishos.org/mer-core/libusb-moded-qt.git')
 md5sums=('SKIP')
 
 pkgver() {
-	cd "$srcdir/${_pkgname%-git}"
-	git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
+    cd "$srcdir/${_pkgname%-git}"
+    git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 build() {
-	cd "$srcdir/${_pkgname%-git}"
-	qmake
-	make
+    cd "$srcdir/${_pkgname%-git}"
+    qmake-qt5 PREFIX=/usr
+    make
 }
 
 package() {
-	cd "$srcdir/${_pkgname%-git}"
-	make INSTALL_ROOT="$pkgdir/" install
+    cd "$srcdir/${_pkgname%-git}"
+    make INSTALL_ROOT="$pkgdir/" install
 }
